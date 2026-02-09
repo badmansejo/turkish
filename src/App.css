@@ -1,0 +1,63 @@
+/* App.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.app-container {
+  padding: 2rem;
+  background-color: #f9f9f9;
+  color: #222;
+}
+
+h1 {
+  color: #1e3a8a; /* dark blue */
+}
+
+section {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.free-tips {
+  background-color: #e2e8f0; /* light gray */
+}
+
+.vip-tips {
+  background-color: #fef3c7; /* light yellow/gold */
+}
+
+.admin-panel {
+  background-color: #cbeafe; /* light blue */
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+button.add-tip {
+  background-color: #10b981; /* green */
+  color: white;
+}
+
+button.vip-toggle {
+  background-color: #f59e0b; /* amber */
+  color: white;
+}
+
+button.logout {
+  background-color: #ef4444; /* red */
+  color: white;
+}
