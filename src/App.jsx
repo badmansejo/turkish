@@ -170,6 +170,71 @@ export default function App() {
     fetchAll();
   };
 
+  /* ---------- PAY VIP ---------- */
+  const payVip = async () => {
+    if (!user) {
+      alert("Please login first!");
+      return;
+    }
+
+    // VIP plans
+    const plans = [
+      { name: "1 day", usd: 0.35, ksh: 20, days: 1 },
+      { name: "1 week", usd: 1, ksh: 120, days: 7 },
+      { name: "1 month", usd: 3.5, ksh: 420, days: 30 },
+      { name: "2 months", usd: 6, ksh: 720, days: 60 },
+      { name: "6 months", usd: 15, ksh: 1800, days: 180 },
+      { name: "1 year", usd: 25, ksh: 3000, days: 365 },
+      { name: "lifetime", usd: 50, ksh: 6000, days: 36500 }, // ~100 years
+    ];
+
+    const choice = prompt(
+      "Select VIP plan:\n" +
+        plans.map((p, i) => `${i + 1}. ${p.name} - USD: ${p.usd}, KSH: ${p.ksh}`).join("\n")
+    );
+
+    const planIndex = Number(choice) - 1;
+    if (planIndex < 0 || planIndex >= plans.length) {
+      alert("Invalid plan selected");
+      return;
+    }
+
+    const plan = plans[planIndex];
+
+    // Ask for currency
+    const currencyChoice = prompt("Choose currency: USD or KSH").toUpperCase();
+    if (!["USD", "KSH"].includes(currencyChoice)) {
+      alert("Invalid currency");
+      return;
+    }
+
+    const amount = currencyChoice === "USD" ? plan.usd : plan.ksh;
+
+    try {
+      const res = await fetch("/api/paystack", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: user.username,
+          planName: plan.name,
+          amount,
+          currency: currencyChoice,
+          days: plan.days,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.status === "success") {
+        window.location.href = data.payment_url;
+      } else {
+        alert("Payment initialization failed: " + data.message);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error creating payment");
+    }
+  };
+
   return (
     <div className="app">
       <h1>
@@ -177,6 +242,7 @@ export default function App() {
         {isAdmin && <span className="admin-badge">ADMIN</span>}
       </h1>
 
+      {/* ---------- LOGIN ---------- */}
       {!user && (
         <div className="login">
           <input placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
@@ -185,6 +251,7 @@ export default function App() {
         </div>
       )}
 
+      {/* ---------- MAIN LAYOUT ---------- */}
       {user && (
         <div className="layout">
           {/* NEWS */}
@@ -195,9 +262,7 @@ export default function App() {
               <div key={n.id} className="news-item">
                 <b>{n.title}</b>
                 <p>{n.content}</p>
-                {isAdmin && (
-                  <button onClick={() => deleteNews(n.id)}>❌ Delete</button>
-                )}
+                {isAdmin && <button onClick={() => deleteNews(n.id)}>❌ Delete</button>}
               </div>
             ))}
           </aside>
@@ -221,6 +286,13 @@ export default function App() {
                   {isAdmin && <button onClick={() => deleteTip(t.id)}>❌</button>}
                 </div>
               ))}
+
+            {/* Pay VIP Button */}
+            {!user.is_vip && (
+              <button onClick={payVip} style={{ fontWeight: "bold", marginTop: "20px" }}>
+                🔓 Become VIP
+              </button>
+            )}
           </main>
 
           {/* ADMIN */}
