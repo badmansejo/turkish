@@ -1,46 +1,70 @@
-/* App.css */
-
+/* Reset & base */
 body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-}
-
-.app-container {
-  padding: 2rem;
   background-color: #f9f9f9;
   color: #222;
 }
 
+.app {
+  padding: 1rem;
+}
+
+/* HEADINGS */
 h1 {
-  color: #1e3a8a; /* dark blue */
+  color: #1e3a8a;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
 }
 
-section {
-  margin-bottom: 2rem;
-  padding: 1rem;
-  border-radius: 8px;
+h2 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
 }
 
-.free-tips {
-  background-color: #e2e8f0; /* light gray */
+/* LAYOUT */
+.layout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
 }
 
-.vip-tips {
-  background-color: #fef3c7; /* light yellow/gold */
+/* SECTIONS */
+.news {
+  width: 25%;
 }
 
-.admin-panel {
-  background-color: #cbeafe; /* light blue */
-  padding: 1rem;
-  border-radius: 8px;
+main {
+  width: 50%;
 }
 
+.admin {
+  width: 25%;
+}
+
+/* NEWS & TIPS BOXES */
+.tip,
+.news-item {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+.tip.vip {
+  background-color: #fef3c7;
+}
+
+/* BUTTONS */
 button {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
   cursor: pointer;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: 0.2s;
 }
 
 button:hover {
@@ -48,16 +72,80 @@ button:hover {
 }
 
 button.add-tip {
-  background-color: #10b981; /* green */
-  color: white;
+  background-color: #10b981;
+  color: #fff;
 }
 
 button.vip-toggle {
-  background-color: #f59e0b; /* amber */
-  color: white;
+  background-color: #f59e0b;
+  color: #fff;
 }
 
 button.logout {
-  background-color: #ef4444; /* red */
-  color: white;
+  background-color: #ef4444;
+  color: #fff;
+}
+
+/* VIP PLAN BUTTONS */
+.vip-plan-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.vip-plan-buttons button {
+  background-color: #e0e0e0;
+  color: #000;
+}
+
+.vip-plan-buttons button.selected {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+/* INPUTS */
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* COUNTDOWN */
+.countdown {
+  font-size: 0.9rem;
+  margin-left: 5px;
+}
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .news,
+  main,
+  .admin {
+    width: 100%;
+  }
+
+  .vip-plan-buttons {
+    grid-template-columns: repeat(2, 1fr); /* 2 per row on mobile */
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  .tip,
+  .news-item {
+    font-size: 14px;
+  }
 }
